@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "gspreader"
+version = "0.1.0"
+description = ""
+authors = ["Rivers Cuomo <riverscuomo@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+gspread = "^5.7.0"
+python-decouple = "^3.6"
+rich = "^12.6.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
