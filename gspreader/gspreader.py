@@ -23,10 +23,6 @@ def get_sheet(spreadsheet: str, worksheet, client=None):
 
         data = sheet.get_all_records()
 
-    and then update the data
-
-        updateRange(sheet, data)
-
     If you supply an authorized client to this function, it will open and return the sheet
     without authorizing a new client.
     """
@@ -98,7 +94,7 @@ def error_routine(e):
     print("sleeping...")
     sleep(2)
 
-# def updateRange2(sheet, data, **kwargs):
+
 def updateRange(sheet, data, **kwargs):
     """I guess this is the one?
     has the alias update_range
@@ -241,75 +237,4 @@ def set_flatten_data(data, headers):
 
 def test():
     sheet = get_sheet("Language", "phrases")
-    # print(sheet)
-
-
-"""
-YOU CAN'T ADD COLUMNS WITH UPDATE RANGE SO USE SOMETHING LIKE THIS
-updated_header_row = headers + new_channel_names
-print(updated_header_row)
-
-sheet.update("A1:ZZ1", [updated_header_row])
-
-
-"""
-
-
-
-# def updateRange(sheet, data, **kwargs):
-#     """deprecated? but some functions still call it?"""
-#     print("you're in the wrong updateRange()")
-
-#     if kwargs:
-#         if kwargs["value_input_option"]:
-#             value_input_option = kwargs["value_input_option"]
-#     else:
-#         value_input_option = "USER_ENTERED"
-
-#     while True:
-#         try:
-#             sheet_columns = sheet.row_values(1)
-#             break
-#         except Exception as e:
-#             error_routine(e)
-
-#     row_count = len(data) + 1  # add one to the row for headers
-#     col_count = len(sheet_columns)
-
-#     while True:
-#         try:
-#             cell_range = sheet.range(2, 1, row_count, col_count)
-#             break
-#         except Exception as e:
-#             error_routine(e)
-
-#     # flatten the list of dicts into a list of values in order
-#     flattened_data = []
-
-#     for row in data:
-#         for column in sheet_columns:
-#             try:
-#                 flattened_data.append(row[column])
-#             except Exception as e:
-#                 flattened_data.append("")
-
-#     print("updating the cell data in the range")
-#     for i, cell in enumerate(cell_range):
-#         cell.value = flattened_data[i]
-
-#     # THIS BLOCK IS JUST FOR CLEARING THE SHEET
-#     print(f"clearing the {sheet} sheet")
-#     # you may have to increase row_count if the updated sheet has fewer rows than the original sheet
-#     range_of_cells = sheet.range(2, 1, row_count, col_count)
-#     for cell in range_of_cells:
-#         cell.value = ""
-#     sheet.update_cells(range_of_cells)
-
-#     print("now print the updated range to the sheet ", value_input_option)
-#     # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
-#     sheet.update_cells(
-#         cell_range, value_input_option=value_input_option
-#     )  # DATA WILL be put into the formulas
-#     # sheet.update_cells(range_of_cells, value_input_option='RAW') # data will be pasted as text
-#     # newly added to shrink the sheet to. BUT WHAT IF YOU HAVE 2 HEADERS OR MORE?
-#     sheet.resize(rows=len(data) + 1)
+    print(sheet)
