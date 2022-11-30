@@ -171,9 +171,6 @@ def setRange(sheet, data, **kwargs):
     # print(f"col count: {col_count}")
     populate_cells(cell_range, flattened_data)
 
-    # for cell in cell_range:
-    #     cell.value = "yeah"
-
     print("now print the updated range to the sheet ", value_input_option)
     # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
     sheet.update_cells(cell_range, value_input_option=value_input_option)
@@ -210,7 +207,7 @@ def flatten_data(data, headers):
             try:
                 flattened_data.append(row[column])
             except Exception:
-                flattened_data.append("")  # I just added this try except thing
+                flattened_data.append("") 
     return flattened_data
 
 
