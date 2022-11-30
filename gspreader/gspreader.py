@@ -241,7 +241,7 @@ def set_flatten_data(data, headers):
 
 def test():
     sheet = get_sheet("Language", "phrases")
-    print(sheet)
+    # print(sheet)
 
 
 """

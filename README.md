@@ -11,7 +11,6 @@ Set environment variables for
     `CLIENT_EMAIL="client_email_from_your_creds.json"`
 
 ## USAGE
-
 Share your google spreadsheet with the client_email address in your google credentials file.
 
 Then get a worksheet by name
