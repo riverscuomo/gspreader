@@ -232,6 +232,3 @@ def set_flatten_data(data, headers):
                 flattened_data.append("")
     return flattened_data
 
-def test():
-    sheet = get_sheet("Language", "phrases")
-    print(sheet)
