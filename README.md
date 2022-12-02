@@ -1,4 +1,7 @@
-My goal is to put this on PyPI. Is there anything I should do here in the code before I look into publishing it? Everything look alright? No secrets visible?
+I published it pypi. Crazy.
+Note:
+you have to pass the creds for pypi
+poetry publish --username --password
 # GSPREADER
 ## DESCRIPTION
 A few helper functions to make gspread even easer to use.
