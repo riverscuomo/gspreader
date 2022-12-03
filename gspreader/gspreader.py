@@ -2,19 +2,18 @@ import os
 from gspread import service_account
 from time import sleep
 from rich import print
-from config import *
+from gspreader.config import *
 
 
 # by string names
 def get_sheet(spreadsheet: str, worksheet, client=None):
-
     """
     Share the google spreadsheet with the client_email address in your google credentials file
 
     Then get a worksheet by name
 
         sheet = get_sheet('suzy', 'titles')
-    
+
     or by index
 
         sheet = get_sheet('suzy', 0)
@@ -79,12 +78,13 @@ def get_client():
             # exit()
 
             # print("signing into google...")
-            client = service_account(GOOGLE_CREDS_PATH)
+            client = service_account(GSPREADER_GOOGLE_CREDS_PATH)
             break
         except Exception as e:
             print(e)
             print("wait to try again")
-            print( f"Did you forget to share the sheet with {CLIENT_EMAIL}"             )
+            print(
+                f"Did you forget to share the sheet with {GSPREADER_GOOGLE_CLIENT_EMAIL}")
             sleep(1)
     return client
 
@@ -207,7 +207,7 @@ def flatten_data(data, headers):
             try:
                 flattened_data.append(row[column])
             except Exception:
-                flattened_data.append("") 
+                flattened_data.append("")
     return flattened_data
 
 
@@ -231,4 +231,3 @@ def set_flatten_data(data, headers):
                 print("failed at column: ", h)
                 flattened_data.append("")
     return flattened_data
-

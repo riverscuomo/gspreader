@@ -1,6 +1,9 @@
-from gspreader import test
+from gspreader import get_sheet
+
+
 def main():
-    test()
+    sheet = get_sheet("Language", "phrases")
+    print(sheet)
 
 
 if __name__ == "__main__":

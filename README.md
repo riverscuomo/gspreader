@@ -1,6 +1,4 @@
-I published it pypi. Crazy.
-Note:
-you have to pass the creds for pypi
+To publish to PyPi you have to pass the creds for pypi
 poetry publish --username --password
 # GSPREADER
 ## DESCRIPTION
@@ -11,8 +9,8 @@ Make sure you have a cred.json file to a google service account.
 
 Set environment variables for 
 
-    `GOOGLE_CREDS_PATH="path_to_your_creds.json"`
-    `CLIENT_EMAIL="client_email_from_your_creds.json"`
+    GSPREADER_GOOGLE_CREDS_PATH=path_to_your_creds.json
+    GSPREADER_GOOGLE_CLIENT_EMAIL="client_email_from_your_creds.json
 
 ## USAGE
 Share your google spreadsheet with the client_email address in your google credentials file.
