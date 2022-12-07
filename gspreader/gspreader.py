@@ -95,7 +95,7 @@ def error_routine(e):
     sleep(2)
 
 
-def updateRange(sheet, data, **kwargs):
+def update_range(sheet, data, **kwargs):
     """I guess this is the one?
     has the alias update_range
     """
@@ -137,7 +137,7 @@ def updateRange(sheet, data, **kwargs):
     sheet.resize(rows=len(data) + 1)
 
 
-def setRange(sheet, data, **kwargs):
+def set_range(sheet, data, **kwargs):
     """
     including the headers
     """
