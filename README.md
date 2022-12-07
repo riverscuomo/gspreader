@@ -1,6 +1,12 @@
 To publish to PyPi you have to pass the creds for pypi
 poetry build
-poetry publish --username --password
+poetry publish --username(not email) --password
+
+If poetry is installed in a python you no longer have (no poetry commands recognized)):
+curl -sSL https://install.python-poetry.org | python - --uninstall
+Install via powershell:
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+
 # GSPREADER
 ## DESCRIPTION
 A few helper functions to make gspread even easer to use.
