@@ -1,4 +1,5 @@
 To publish to PyPi you have to pass the creds for pypi
+poetry build
 poetry publish --username --password
 # GSPREADER
 ## DESCRIPTION
