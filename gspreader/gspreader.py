@@ -95,11 +95,10 @@ def error_routine(e):
     sleep(2)
 
 
-def update_range(sheet, data, **kwargs):
-    """I guess this is the one?
-    has the alias update_range
+def update_range(sheet, data, head: int = 1, **kwargs):
     """
-    # print("updateRange2")
+    """
+    # print("update_range")
 
     value_input_option = get_options(kwargs)
 
@@ -111,11 +110,12 @@ def update_range(sheet, data, **kwargs):
     row_count = len(data) + 1  # add one to the row for headers
     col_count = len(headers)  # len(sheet_columns)
 
-    # Get the range based on number of rows in the data
-    # and the number of columns in the sheet
+    first_data_row = head + 1 # in case the header row is below the first row
+
+    # Get the range based on number of rows in the data and the number of columns in the sheet
     while True:
         try:
-            cell_range = sheet.range(2, 1, row_count, col_count)
+            cell_range = sheet.range(first_data_row, 1, row_count, col_count)
             break
         except Exception as e:
             error_routine(e)
@@ -133,8 +133,8 @@ def update_range(sheet, data, **kwargs):
     # DATA WILL be put into the formulas
     # sheet.update_cells(range_of_cells, value_input_option='RAW') # data will be pasted as text
 
-    # newly added to shrink the sheet to. BUT WHAT IF YOU HAVE 2 HEADERS OR MORE?
-    sheet.resize(rows=len(data) + 1)
+    # Shrink the sheet to the size of the data plus the header row(s)
+    sheet.resize(rows=len(data) + head)
 
 
 def set_range(sheet, data, **kwargs):
