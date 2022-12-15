@@ -1,8 +1,10 @@
 import os
-from gspread import service_account
+from gspread import service_account, service_account_from_dict
 from time import sleep
 from rich import print
 from gspreader.config import *
+
+from gspreader.gspreader.config import GSPREADER_GOOGLE_CREDS
 
 
 # by string names
@@ -78,7 +80,10 @@ def get_client():
             # exit()
 
             # print("signing into google...")
-            client = service_account(GSPREADER_GOOGLE_CREDS_PATH)
+            if GSPREADER_GOOGLE_CREDS_PATH:
+                client = service_account(GSPREADER_GOOGLE_CREDS_PATH)
+            elif GSPREADER_GOOGLE_CREDS:
+                client = service_account_from_dict(GSPREADER_GOOGLE_CREDS)
             break
         except Exception as e:
             print(e)
