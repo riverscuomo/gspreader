@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gspreader"
-version = "0.1.8"
+version = "0.1.10"
 description = "A few helper functions to make gspread even easer to use."
 authors = ["Rivers Cuomo <riverscuomo@users.noreply.github.com>"]
 

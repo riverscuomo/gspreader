@@ -4,7 +4,6 @@ from time import sleep
 from rich import print
 from gspreader.config import *
 
-from gspreader.gspreader.config import GSPREADER_GOOGLE_CREDS
 
 
 # by string names
