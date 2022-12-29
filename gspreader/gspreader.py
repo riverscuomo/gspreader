@@ -3,10 +3,8 @@ from gspread import service_account, service_account_from_dict
 from time import sleep
 from rich import print
 from gspreader.config import *
+import json
 
-
-
-# by string names
 def get_sheet(spreadsheet: str, worksheet, client=None):
     """
     Share the google spreadsheet with the client_email address in your google credentials file
@@ -31,18 +29,18 @@ def get_sheet(spreadsheet: str, worksheet, client=None):
     # print("worksheet=", worksheet)
 
     if not client:
-        # print("no client supplied, creating one")
+        print("no client supplied, creating one")
         client = get_client()
         # print(client)
 
     while True:
         try:
             if type(worksheet) == str:
-                # print(f"getting sheet <{spreadsheet}> by worksheet name <{worksheet}>")
+                print(f"getting sheet <{spreadsheet}> by worksheet name <{worksheet}>")
                 sheet = client.open(spreadsheet).worksheet(worksheet)
                 break
             elif type(worksheet) == int:
-                # print("getting sheet by index")
+                print("getting sheet by index")
                 sheet = client.open(spreadsheet).get_worksheet(worksheet)
                 break
             else:
@@ -64,7 +62,7 @@ def get_sheet(spreadsheet: str, worksheet, client=None):
                 print(vars(e))
                 print(type(worksheet))
                 print(
-                    f"\n\nDid you forget to share the {spreadsheet} with:  \n\n\nOr did you change the name of the worksheet?"
+                    f"\n\nDid you forget to share the {spreadsheet} with {GSPREADER_GOOGLE_CLIENT_EMAIL}:  \n\n\nOr did you change the name of the worksheet?"
                 )
                 exit()
 
@@ -72,24 +70,32 @@ def get_sheet(spreadsheet: str, worksheet, client=None):
 
 
 def get_client():
+    print("get_client()")
     while True:
         try:
-            # if os.environ.get("GSPREADER_CREDENTIALS") is None:
-            # print("GSPREADER_CREDENTIALS not set")
-            # exit()
+            print("signing in with GSPREADER_GOOGLE_CREDS_PATH...")
+            client = service_account(GSPREADER_GOOGLE_CREDS_PATH)
+        except:
+            # print(f"failed with GSPREADER_GOOGLE_CREDS_PATH: {GSPREADER_GOOGLE_CREDS_PATH}")
+            try:
+                print("signing in with GSPREADER_GOOGLE_CREDS...")
+                # generate json - if there are errors here remove newlines in .env
+                json_data = json.loads(GSPREADER_GOOGLE_CREDS)
+                # the private_key needs to replace \n parsed as string literal with escaped newlines
+                json_data['private_key'] = json_data['private_key'].replace('\\n', '\n')
 
-            # print("signing into google...")
-            if GSPREADER_GOOGLE_CREDS_PATH:
-                client = service_account(GSPREADER_GOOGLE_CREDS_PATH)
-            elif GSPREADER_GOOGLE_CREDS:
-                client = service_account_from_dict(GSPREADER_GOOGLE_CREDS)
-            break
-        except Exception as e:
-            print(e)
-            print("wait to try again")
-            print(
-                f"Did you forget to share the sheet with {GSPREADER_GOOGLE_CLIENT_EMAIL}")
-            sleep(1)
+                client = service_account_from_dict(json_data)
+            except:
+                print(f"failed with GSPREADER_GOOGLE_CREDS: {GSPREADER_GOOGLE_CREDS}")
+                exit()
+
+        break
+        # except Exception as e:
+        #     print(e)
+        #     print("wait to try again")
+        #     print(
+        #         f"Did you forget to share the sheet with {GSPREADER_GOOGLE_CLIENT_EMAIL}")
+        #     sleep(1)
     return client
 
 
@@ -235,3 +241,4 @@ def set_flatten_data(data, headers):
                 print("failed at column: ", h)
                 flattened_data.append("")
     return flattened_data
+
