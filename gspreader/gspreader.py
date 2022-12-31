@@ -1,4 +1,4 @@
-import os
+# import os
 from gspread import service_account, service_account_from_dict
 from time import sleep
 from rich import print
@@ -105,48 +105,6 @@ def error_routine(e):
     sleep(2)
 
 
-def update_range(sheet, data, head: int = 1, **kwargs):
-    """
-    """
-    # print("update_range")
-
-    value_input_option = get_options(kwargs)
-
-    # Python >= 3.5 alternative: unpack dictionary keys into a list literal [*newdict]
-    # arbitrarily using the first data row to get the keys
-    headers = [*data[0]]
-    # print(headers)
-
-    row_count = len(data) + 1  # add one to the row for headers
-    col_count = len(headers)  # len(sheet_columns)
-
-    first_data_row = head + 1 # in case the header row is below the first row
-
-    # Get the range based on number of rows in the data and the number of columns in the sheet
-    while True:
-        try:
-            cell_range = sheet.range(first_data_row, 1, row_count, col_count)
-            break
-        except Exception as e:
-            error_routine(e)
-
-    # flatten the list of dicts into a list of values in order
-    flattened_data = flatten_data(data, headers)
-    # print(flattened_data)
-
-    populate_cells(cell_range, flattened_data)
-
-    print("now print the updated range to the sheet ", value_input_option)
-    # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
-    sheet.update_cells(cell_range, value_input_option=value_input_option)
-
-    # DATA WILL be put into the formulas
-    # sheet.update_cells(range_of_cells, value_input_option='RAW') # data will be pasted as text
-
-    # Shrink the sheet to the size of the data plus the header row(s)
-    sheet.resize(rows=len(data) + head)
-
-
 def set_range(sheet, data, **kwargs):
     """
     including the headers
@@ -207,9 +165,11 @@ def populate_cells(cell_range, flattened_data):
     # print(f"len(flattened_data) = {len(flattened_data)}")
     for i, cell in enumerate(cell_range):
         cell.value = flattened_data[i]
+    return cell_range
 
 
 def flatten_data(data, headers):
+    """ flatten the list of dicts into a list of values IN ORDER OF THE sheet headers"""
     flattened_data = []
 
     for row in data:
@@ -242,3 +202,64 @@ def set_flatten_data(data, headers):
                 flattened_data.append("")
     return flattened_data
 
+
+def update_range(sheet, data, head: int = 1, **kwargs):
+    """
+    """
+    # print("update_range")
+
+    value_input_option = get_options(kwargs)
+
+    # ## THIS DOESN'T WORK WHEN THE DATA.HEADERS AND THE SHEET.HEADERS ARE IN A DIFFERENT ORDER
+    # ## BASICALLY THE KEYS CAN'T CHANGE AFTER YOU GET THE SHEET
+    # # # Python >= 3.5 alternative: unpack dictionary keys into a list literal [*newdict]
+    # # # arbitrarily using the first data row to get the keys
+    # data_headers = [*data[0]]
+
+    # sheet_headers = sheet.row_values(1)
+
+    # # headers = sheet_headers if data_headers != sheet_headers else data_headers
+    # print(data_headers == sheet_headers)
+    # # print(headers)
+    # print("data headers: ", data_headers)
+    # print("sheet headers: ", sheet_headers)
+    # # exit()
+    while True:
+        try:
+            headers = sheet.row_values(head)
+            break
+        except Exception as e:
+            print(e)
+            print("sleeping...")
+            sleep(2)
+
+    # headers = sheet_headers
+
+    row_count = len(data) + 1  # add one to the row for headers
+    col_count = len(headers)  # len(sheet_columns)
+
+    first_data_row = head + 1 # in case the header row is below the first row
+
+    # Get the range based on number of rows in the data and the number of columns in the sheet
+    while True:
+        try:
+            cell_range = sheet.range(first_data_row, 1, row_count, col_count)
+            break
+        except Exception as e:
+            error_routine(e)
+
+    # 
+    flattened_data = flatten_data(data, headers)
+    # print(flattened_data)
+
+    cell_range = populate_cells(cell_range, flattened_data)
+
+    print("now print the updated range to the sheet ", value_input_option)
+    # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
+    sheet.update_cells(cell_range, value_input_option=value_input_option)
+
+    # DATA WILL be put into the formulas
+    # sheet.update_cells(range_of_cells, value_input_option='RAW') # data will be pasted as text
+
+    # Shrink the sheet to the size of the data plus the header row(s)
+    sheet.resize(rows=len(data) + head)
