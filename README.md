@@ -1,3 +1,5 @@
+# Gspreader [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
+
 To publish to PyPi you have to pass the creds for pypi
 poetry build
 poetry publish --username(not email) --password
@@ -7,7 +9,6 @@ curl -sSL https://install.python-poetry.org | python - --uninstall
 Install via powershell:
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 
-# GSPREADER
 ## DESCRIPTION
 A few helper functions to make gspread even easer to use.
 
