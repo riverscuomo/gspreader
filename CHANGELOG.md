@@ -2,6 +2,8 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.22 (2022-02-18)
+unpinned upperbound dependencies
 ## v0.1.21 (2022-01-24)
 
 
