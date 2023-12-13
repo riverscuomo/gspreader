@@ -1,8 +1,25 @@
 # Gspreader [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 
-To publish to PyPi you have to pass the creds for pypi
-poetry build
-poetry publish --username(not email) --password
+## To publish to PyPi you have to pass the creds for pypi
+1. Update your package files with the necessary changes (code, documentation, tests, etc.).
+
+2. Update the version number of your package in the `pyproject.toml` file. Semantic versioning (MAJOR.MINOR.PATCH) is a common strategy for version numbers. For example:
+    ```toml
+    [tool.poetry]
+    name = "your-package-name"
+    version = "1.0.1"  # update this with the new version
+    description = "Your package description"
+    # ... other metadata
+    ```
+
+3. Commit your changes to your version control system (e.g., Git). It's a good practice to tag your release with the version number:
+    ```bash
+    git commit -am "Update package to version 1.0.1"
+    git tag -a 1.0.1 -m "Release version 1.0.1"
+    git push origin master --tags
+    ```
+4. poetry build
+poetry publish --username riverscuomo --password <yourpassword>
 
 If poetry is installed in a python you no longer have (no poetry commands recognized)):
 curl -sSL https://install.python-poetry.org | python - --uninstall
