@@ -1,7 +1,9 @@
 # Changelog
 
-<!--next-version-placeholder-->
-
+## v0.1.24 (2023-12-12)
+not even sure what I changed
+## v0.1.23 (2022-02-20)
+added update_sheet_data_by_matching_key()
 ## v0.1.22 (2022-02-18)
 unpinned upperbound dependencies
 ## v0.1.21 (2022-01-24)

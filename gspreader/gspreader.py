@@ -71,6 +71,37 @@ def get_sheet(spreadsheet: str, worksheet, client=None):
     print("\n")
     return sheet
 
+def get_sheet_and_client(spreadsheet: str, worksheet, client=None):
+    """
+    Share the google spreadsheet with the client_email address in your google credentials file
+
+    Then get a worksheet by name
+
+        sheet = get_sheet('suzy', 'titles')
+
+    or by index
+
+        sheet = get_sheet('suzy', 0)
+
+    then get the data
+
+        data = sheet.get_all_records()
+
+    If you supply an authorized client to this function, it will open and return the sheet
+    without authorizing a new client.
+    """
+    print(f"get_sheet '{spreadsheet}'")
+    # print("sheet=", sheet)
+    # print("worksheet=", worksheet)
+
+    if not client:
+        print("no client supplied, creating one")
+        client = get_client()
+        # print(client)
+
+    sheet = get_sheet(spreadsheet, worksheet, client)
+    return sheet, client
+
 
 def get_client():
     print("get_client()")
@@ -275,11 +306,37 @@ def update_range(sheet, data, head: int = 1, **kwargs):
     cell_range = populate_cells(cell_range, flattened_data)
 
     print("now print the updated range to the sheet ", value_input_option)
-    # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
-    sheet.update_cells(cell_range, value_input_option=value_input_option)
+
+    try:
+        # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
+        sheet.update_cells(cell_range, value_input_option=value_input_option)
+    except Exception as e:
+        print(traceback.format_exc())
+        exit()
 
     # DATA WILL be put into the formulas
     # sheet.update_cells(range_of_cells, value_input_option='RAW') # data will be pasted as text
 
     # Shrink the sheet to the size of the data plus the header row(s)
     sheet.resize(rows=len(data) + head)
+
+
+def sanitize_key(s: str):
+    s = s.lower()
+    bads = ["'", '"', "(", ")", ":", ";", "!", "?", "’", "“", "”", "‘", "–", "—", "…", ",", ".", " ", "-"]
+    for b in bads:
+        s = s.replace(b, "")
+    return s
+
+
+def update_sheet_data_by_matching_key(sheet_data: list, new_data: list, key: str):
+    """ update the sheet_data with the new_data (if there's a matching row in the new data)"""
+    print("update_sheet_data...")
+    for row in sheet_data:
+        for new_row in new_data:
+            if sanitize_key(str(row[key])) == sanitize_key(str(new_row[key])):
+                # print(f"Updating {row[key]}")
+
+                # Update the columns for this song in this new_row
+                row.update(new_row)
+    return sheet_data

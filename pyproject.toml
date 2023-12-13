@@ -1,16 +1,16 @@
 [tool.poetry]
 name = "gspreader"
-version = "0.1.22"
+version = "0.1.24"
 description = "A few helper functions to make gspread even easer to use."
 authors = ["Rivers Cuomo <riverscuomo@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-gspread = ">=5.7.0"
+python = "^3.11"
+gspread = ">=5.11.3"
 rich = ">=12.6.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
