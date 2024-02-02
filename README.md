@@ -19,7 +19,7 @@
     git push origin master --tags
     ```
 4. poetry build
-poetry publish --username riverscuomo --password <yourpassword>
+5. poetry publish --username riverscuomo --password <yourpassword>
 
 If poetry is installed in a python you no longer have (no poetry commands recognized)):
 curl -sSL https://install.python-poetry.org | python - --uninstall
