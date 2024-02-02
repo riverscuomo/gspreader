@@ -6,7 +6,7 @@ from gspreader.config import *
 import json
 import traceback
 
-def get_sheet(spreadsheet: str, worksheet, client=None):
+def get_sheet(spreadsheet: str, worksheet: str | int, client=None):
     """
     Share the google spreadsheet with the client_email address in your google credentials file
 
@@ -71,7 +71,7 @@ def get_sheet(spreadsheet: str, worksheet, client=None):
     print("\n")
     return sheet
 
-def get_sheet_and_client(spreadsheet: str, worksheet, client=None):
+def get_sheet_and_client(spreadsheet: str, worksheet: str | int, client=None):
     """
     Share the google spreadsheet with the client_email address in your google credentials file
 
