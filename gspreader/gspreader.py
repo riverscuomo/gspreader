@@ -68,7 +68,7 @@ def get_sheet(spreadsheet: str, worksheet: str | int, client=None):
                 f"\n\nDid you forget to share the {spreadsheet} with {GSPREADER_GOOGLE_CLIENT_EMAIL}:  \n\n\nOr did you change the name of the worksheet?"
             )
         exit()
-    print("\n")
+    # print("\n")
     return sheet
 
 def get_sheet_and_client(spreadsheet: str, worksheet: str | int, client=None):
@@ -139,6 +139,59 @@ def error_routine(e):
     print("sleeping...")
     sleep(2)
 
+def get_options(kwargs):
+    if kwargs:
+        if kwargs["value_input_option"]:
+            value_input_option = kwargs["value_input_option"]
+    else:
+        value_input_option = "USER_ENTERED"
+    return value_input_option
+
+
+def populate_cells(cell_range, flattened_data):
+    # print("updating the cell data in the range")
+    # print(f"len(cellrange) = {len(cell_range)}")
+    # print(f"len(flattened_data) = {len(flattened_data)}")
+    for i, cell in enumerate(cell_range):
+        cell.value = flattened_data[i]
+    return cell_range
+
+
+def flatten_data(data, headers):
+    """ flatten the list of dicts into a list of values IN ORDER OF THE sheet headers"""
+    flattened_data = []
+
+    for row in data:
+        for column in headers:
+            try:
+                flattened_data.append(row[column])
+            except Exception:
+                flattened_data.append("")
+    return flattened_data
+
+
+def set_flatten_data(data, headers):
+    # print("set_flatten_data")
+    flattened_data = []
+    flattened_data.extend(headers)
+
+    # flattened_data = []
+    # print(headers)
+
+    # for h in headers:
+    #     print(h)
+    # exit()
+
+    for row in data:
+        for h in headers:
+            try:
+                flattened_data.append(row[h])
+            except Exception:
+                print("failed at column: ", h)
+                flattened_data.append("")
+    return flattened_data
+
+
 
 def set_range(sheet, data, **kwargs):
     """
@@ -191,59 +244,6 @@ def set_range(sheet, data, **kwargs):
 
     # newly added to shrink the sheet to. BUT WHAT IF YOU HAVE 2 HEADERS OR MORE?
     sheet.resize(rows=len(data) + 1)
-
-
-def get_options(kwargs):
-    if kwargs:
-        if kwargs["value_input_option"]:
-            value_input_option = kwargs["value_input_option"]
-    else:
-        value_input_option = "USER_ENTERED"
-    return value_input_option
-
-
-def populate_cells(cell_range, flattened_data):
-    # print("updating the cell data in the range")
-    # print(f"len(cellrange) = {len(cell_range)}")
-    # print(f"len(flattened_data) = {len(flattened_data)}")
-    for i, cell in enumerate(cell_range):
-        cell.value = flattened_data[i]
-    return cell_range
-
-
-def flatten_data(data, headers):
-    """ flatten the list of dicts into a list of values IN ORDER OF THE sheet headers"""
-    flattened_data = []
-
-    for row in data:
-        for column in headers:
-            try:
-                flattened_data.append(row[column])
-            except Exception:
-                flattened_data.append("")
-    return flattened_data
-
-
-def set_flatten_data(data, headers):
-    # print("set_flatten_data")
-    flattened_data = []
-    flattened_data.extend(headers)
-
-    # flattened_data = []
-    # print(headers)
-
-    # for h in headers:
-    #     print(h)
-    # exit()
-
-    for row in data:
-        for h in headers:
-            try:
-                flattened_data.append(row[h])
-            except Exception:
-                print("failed at column: ", h)
-                flattened_data.append("")
-    return flattened_data
 
 
 def update_range(sheet, data, head: int = 1, **kwargs):
