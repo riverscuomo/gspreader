@@ -1,5 +1,5 @@
 # import os
-from gspread import service_account, service_account_from_dict
+from gspread import service_account, service_account_from_dict, SpreadsheetNotFound
 from time import sleep
 from rich import print
 from gspreader.config import *
@@ -25,23 +25,23 @@ def get_sheet(spreadsheet: str, worksheet: str | int, client=None):
     If you supply an authorized client to this function, it will open and return the sheet
     without authorizing a new client.
     """
-    print(f"get_sheet '{spreadsheet}'")
+    # print(f"get_sheet '{spreadsheet}'")
     # print("sheet=", sheet)
     # print("worksheet=", worksheet)
 
     if not client:
-        print("no client supplied, creating one")
+        # print("no client supplied, creating one")
         client = get_client()
         # print(client)
 
     # while True:
     try:
         if type(worksheet) == str:
-            print(f"getting sheet '{spreadsheet}' by worksheet name '{worksheet}'")
+            # print(f"getting sheet '{spreadsheet}' by worksheet name '{worksheet}'")
             sheet = client.open(spreadsheet).worksheet(worksheet)
             # break
         elif type(worksheet) == int:
-            print("getting sheet by index")
+            # print("getting sheet by index")
             sheet = client.open(spreadsheet).get_worksheet(worksheet)
             # break
         else:
@@ -50,25 +50,18 @@ def get_sheet(spreadsheet: str, worksheet: str | int, client=None):
             )
             print(f"worksheet={worksheet}")
             exit()
+    except SpreadsheetNotFound:
+        print(f"Spreadsheet not found. Did you forget to share '{spreadsheet}' with {GSPREADER_GOOGLE_CLIENT_EMAIL}")
+
+        exit()
     except Exception as e:
-        # print(e.args)
         print(f"failed to get sheet with error: {traceback.format_exc()}")
-        if e.args != ():
-            # print("\n\n")
-            print(e)
-            # print("sleeping for 10 seconds...")
-            # sleep(10)
-            # exit()
-        else:
-            print(e)
+        print(e)
+        if e.args == ():
             print(type(e))
             print(vars(e))
             print(type(worksheet))
-            print(
-                f"\n\nDid you forget to share the {spreadsheet} with {GSPREADER_GOOGLE_CLIENT_EMAIL}:  \n\n\nOr did you change the name of the worksheet?"
-            )
         exit()
-    # print("\n")
     return sheet
 
 def get_sheet_and_client(spreadsheet: str, worksheet: str | int, client=None):
@@ -90,12 +83,12 @@ def get_sheet_and_client(spreadsheet: str, worksheet: str | int, client=None):
     If you supply an authorized client to this function, it will open and return the sheet
     without authorizing a new client.
     """
-    print(f"get_sheet '{spreadsheet}'")
+    # print(f"get_sheet '{spreadsheet}'")
     # print("sheet=", sheet)
     # print("worksheet=", worksheet)
 
     if not client:
-        print("no client supplied, creating one")
+        # print("no client supplied, creating one")
         client = get_client()
         # print(client)
 
@@ -104,7 +97,7 @@ def get_sheet_and_client(spreadsheet: str, worksheet: str | int, client=None):
 
 
 def get_client():
-    print("get_client()")
+    # print("get_client()")
     # while True:
     try:
         print("signing in with GSPREADER_GOOGLE_CREDS_PATH...")
@@ -235,7 +228,7 @@ def set_range(sheet, data, **kwargs):
     # print(f"col count: {col_count}")
     populate_cells(cell_range, flattened_data)
 
-    print("now print the updated range to the sheet ", value_input_option)
+    # print("now print the updated range to the sheet ", value_input_option)
     # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
     sheet.update_cells(cell_range, value_input_option=value_input_option)
 
