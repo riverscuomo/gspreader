@@ -22,8 +22,14 @@
     git push origin master --tags
     ```
 
-4. poetry build
-5. poetry publish --username riverscuomo --password <yourpassword>
+## If not already done, add you pypi creds to poetry. The token may be saved in your environment variables
+
+`poetry config pypi-token.pypi YOUR_API_TOKEN`
+
+## Build and publish your package to PyPI
+
+`poetry build`
+`poetry publish`
 
 If poetry is installed in a python you no longer have (no poetry commands recognized)):
 curl -sSL <https://install.python-poetry.org> | python - --uninstall
