@@ -46,11 +46,11 @@ Make sure you have a cred.json file to a google service account.
 
 Set environment variables for
 
-    GSPREADER_GOOGLE_CLIENT_EMAIL=client_email_from_your_creds.json
+GSPREADER_GOOGLE_CLIENT_EMAIL=client_email_from_your_creds.json
 
-    GSPREADER_GOOGLE_CREDS=the dict of your creds (in the case that you've deployed to Heroku and you've set the creds dict as an env var)
-    OR
-    GSPREADER_GOOGLE_CREDS_PATH=path_to_your_creds.json
+GSPREADER_GOOGLE_CREDS=the dict of your creds (in the case that you've deployed to Heroku and you've set the creds dict as an env var)
+OR
+GSPREADER_GOOGLE_CREDS_PATH=path_to_your_creds.json
     
 
 ## USAGE
@@ -59,16 +59,16 @@ Share your google spreadsheet with the client_email address in your google crede
 
 Then get a worksheet by name
 
-    `sheet = get_sheet('suzy', 'titles')`
+`sheet = get_sheet('suzy', 'titles')`
 
 or by index
 
-    `sheet = get_sheet('suzy', 0)`
+`sheet = get_sheet('suzy', 0)`
 
 then get the data
 
-    `data = sheet.get_all_records()`
+`data = sheet.get_all_records()`
 
 and then update the data
 
-    `update_range(sheet, data)`
+`update_range(sheet, data)`

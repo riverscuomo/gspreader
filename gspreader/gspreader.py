@@ -100,7 +100,7 @@ def get_client():
     # print("get_client()")
     # while True:
     try:
-        print("signing in with GSPREADER_GOOGLE_CREDS_PATH...")
+        # print("signing in with GSPREADER_GOOGLE_CREDS_PATH...")
         client = service_account(GSPREADER_GOOGLE_CREDS_PATH)
     except:
         # print(f"failed with GSPREADER_GOOGLE_CREDS_PATH: {GSPREADER_GOOGLE_CREDS_PATH}")
@@ -298,7 +298,7 @@ def update_range(sheet, data, head: int = 1, **kwargs):
 
     cell_range = populate_cells(cell_range, flattened_data)
 
-    print("now print the updated range to the sheet ", value_input_option)
+    # print("now print the updated range to the sheet ", value_input_option)
 
     try:
         # sheet.update_cells(range_of_cells) # DATA WILL be put into the formulas
